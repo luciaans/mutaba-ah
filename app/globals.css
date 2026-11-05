@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #f6f8f6;
+  --surface: #ffffff;
+  --ink: #17231e;
+  --muted: #75827b;
+  --line: #e7ece8;
+  --green: #0d5c45;
+  --green-soft: #eaf4ef;
+  --gold: #b59552;
+}
+
+* { box-sizing: border-box; }
+html { min-height: 100%; background: var(--canvas); overflow-x: clip; }
+body { margin: 0; color: var(--ink); background: var(--canvas); font-family: Arial, Helvetica, sans-serif; overflow-x: clip; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a:focus-visible, button:focus-visible { outline: 3px solid #65a88a; outline-offset: 3px; }
+::selection { color: #123c2e; background: #cfe7d9; }
+
+.app-shell { min-height: 100dvh; }
+.sidebar { width: 250px; }
+.main-content { margin-left: 250px; }
+.nav-link { transition: background-color 160ms ease, color 160ms ease; }
+.nav-link:hover { background: #f2f6f3; }
+.nav-link[aria-current="page"] { color: var(--green); background: var(--green-soft); }
+.mobile-nav { display: none; }
+
+@media (max-width: 760px) {
+  .sidebar { display: none; }
+  .main-content { margin-left: 0; padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  .mobile-nav { display: grid; padding-bottom: env(safe-area-inset-bottom); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
