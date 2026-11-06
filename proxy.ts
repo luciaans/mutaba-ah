@@ -4,7 +4,7 @@ import type { Database } from "@/types/database.types";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  if (pathname === "/sw.js" || pathname === "/offline.html" || pathname === "/manifest.webmanifest") return NextResponse.next();
+  if (pathname === "/sw.js" || pathname === "/offline.html" || pathname === "/manifest.webmanifest" || pathname === "/opengraph-image") return NextResponse.next();
   const isLogin = pathname === "/login";
   const isAuthEndpoint = pathname.startsWith("/api/auth/");
   if (isAuthEndpoint || pathname.startsWith("/_next/") || pathname === "/favicon.ico") return NextResponse.next();
