@@ -1,6 +1,8 @@
 import { LoginForm } from "@/components/login-form";
 import { Brand } from "@/components/brand";
 
+export const metadata = { title: "Masuk" };
+
 export default function LoginPage() {
   return (
     <main className="flex min-h-dvh items-center justify-center bg-[#f6f8f6] px-5 py-10">

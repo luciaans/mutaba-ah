@@ -12,6 +12,8 @@ import type { Database } from "@/types/database.types";
 type ClassRow = Database["public"]["Tables"]["classes"]["Row"];
 type StudentRow = Database["public"]["Tables"]["students"]["Row"];
 
+export const metadata = { title: "Data Santri" };
+
 export const dynamic = "force-dynamic";
 
 export default async function StudentsPage() {

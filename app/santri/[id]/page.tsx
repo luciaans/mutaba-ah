@@ -12,6 +12,8 @@ type PrayerName = "subuh" | "zuhur" | "asar" | "magrib" | "isya";
 const prayerLabels: Record<PrayerName, string> = { subuh: "Subuh", zuhur: "Zuhur", asar: "Asar", magrib: "Magrib", isya: "Isya" };
 const absenceReasonLabels = { sakit: "Sakit", izin: "Izin", alfa: "Alfa" } as const;
 
+export const metadata = { title: "Detail Santri" };
+
 export const dynamic = "force-dynamic";
 
 function dateList(year: number, month: number, days: number) {

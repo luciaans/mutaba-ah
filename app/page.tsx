@@ -11,6 +11,8 @@ import { formatDateId, formatTimeId, prayerForTime, todayInAppTimeZone, type Pra
 
 const prayerLabels: Record<PrayerName, string> = { subuh: "Subuh", zuhur: "Zuhur", asar: "Asar", magrib: "Magrib", isya: "Isya" };
 
+export const metadata = { title: "Beranda" };
+
 export const dynamic = "force-dynamic";
 
 export default async function Home() {

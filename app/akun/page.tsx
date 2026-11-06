@@ -5,6 +5,8 @@ import { ChangePasswordForm } from "@/components/account-forms";
 import { LogoutButton } from "@/components/logout-button";
 import { requireProfile } from "@/lib/auth";
 
+export const metadata = { title: "Akun Saya" };
+
 export const dynamic = "force-dynamic";
 
 export default async function AccountPage() {

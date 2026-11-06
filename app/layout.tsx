@@ -6,7 +6,10 @@ import "./globals.css";
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "MUTABA'AH — Monitoring Ibadah Santri",
+  title: {
+    default: "MUTABA'AH | Beranda",
+    template: "MUTABA'AH | %s",
+  },
   description: "Menjaga Kedisiplinan, Membentuk Kebiasaan Ibadah.",
   applicationName: "MUTABA'AH",
   appleWebApp: { capable: true, statusBarStyle: "default", title: "MUTABA'AH" },

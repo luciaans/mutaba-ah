@@ -18,6 +18,8 @@ type MonitoringTeacher = Pick<Database["public"]["Tables"]["profiles"]["Row"], "
 const prayerNames: PrayerName[] = ["subuh", "zuhur", "asar", "magrib", "isya"];
 const prayerLabels: Record<PrayerName, string> = { subuh: "Subuh", zuhur: "Zuhur", asar: "Asar", magrib: "Magrib", isya: "Isya" };
 
+export const metadata = { title: "Absensi" };
+
 export const dynamic = "force-dynamic";
 
 export default async function AttendancePage({ searchParams }: { searchParams: Promise<{ classId?: string; date?: string; prayer?: string }> }) {

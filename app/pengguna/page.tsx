@@ -11,6 +11,8 @@ import type { Database } from "@/types/database.types";
 type TeacherSummary = { id: string; username: string; full_name: string; is_active: boolean; created_at: string };
 type ClassRow = Database["public"]["Tables"]["classes"]["Row"];
 
+export const metadata = { title: "Pengguna" };
+
 export const dynamic = "force-dynamic";
 
 export default async function UsersPage() {

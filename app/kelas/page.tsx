@@ -10,6 +10,8 @@ import type { Database } from "@/types/database.types";
 type ClassRow = Database["public"]["Tables"]["classes"]["Row"];
 type TeacherRow = Pick<Database["public"]["Tables"]["profiles"]["Row"], "id" | "full_name">;
 
+export const metadata = { title: "Kelas" };
+
 export const dynamic = "force-dynamic";
 
 export default async function ClassesPage() {

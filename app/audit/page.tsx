@@ -10,6 +10,8 @@ import type { Database } from "@/types/database.types";
 type LogRow = Database["public"]["Tables"]["attendance_logs"]["Row"];
 const prayerLabels: Record<PrayerName, string> = { subuh: "Subuh", zuhur: "Zuhur", asar: "Asar", magrib: "Magrib", isya: "Isya" };
 
+export const metadata = { title: "Audit Aktivitas" };
+
 export const dynamic = "force-dynamic";
 
 function statusText(value: boolean | null) {

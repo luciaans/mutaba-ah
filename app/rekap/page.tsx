@@ -12,6 +12,8 @@ import { createClient } from "@/lib/supabase/server";
 const prayers = ["Subuh", "Zuhur", "Asar", "Magrib", "Isya"];
 const prayerKeys = ["subuh_missed", "zuhur_missed", "asar_missed", "magrib_missed", "isya_missed"] as const;
 
+export const metadata = { title: "Rekap Absensi" };
+
 export const dynamic = "force-dynamic";
 
 export default async function ReportsPage({ searchParams }: { searchParams: Promise<{ periode?: string; tanggal?: string; kelas?: string }> }) {

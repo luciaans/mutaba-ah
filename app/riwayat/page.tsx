@@ -11,6 +11,8 @@ const prayerOptions: PrayerName[] = ["subuh", "zuhur", "asar", "magrib", "isya"]
 const absenceReasonLabels = { sakit: "Sakit", izin: "Izin", alfa: "Alfa" } as const;
 type AttendanceRow = Database["public"]["Tables"]["prayer_attendance"]["Row"];
 
+export const metadata = { title: "Riwayat Absensi" };
+
 export const dynamic = "force-dynamic";
 
 export default async function HistoryPage({ searchParams }: { searchParams: Promise<{ mulai?: string; sampai?: string; kelas?: string; santri?: string; salat?: string; halaman?: string }> }) {
