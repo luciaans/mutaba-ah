@@ -91,10 +91,10 @@ export function StudentList({ students, classes, canManage }: { students: Studen
   return <>
     <Dialog />
     <div className="mb-4 grid grid-cols-1 gap-2.5 sm:grid-cols-[minmax(220px,1fr)_repeat(2,minmax(140px,auto))_auto] sm:items-center">
-      <label className="flex h-11 min-w-0 items-center gap-2.5 rounded-xl border border-[#dfe7e1] bg-white px-3.5 focus-within:border-[#75a68d]">
-        <Search size={16} className="shrink-0 text-[#86928a]" />
+      <label className="flex h-[52px] min-w-0 items-center gap-3 rounded-xl border border-[#dfe7e1] bg-white px-4 focus-within:border-[#75a68d] sm:h-11 sm:gap-2.5 sm:px-3.5">
+        <Search size={18} className="h-5 w-5 shrink-0 text-[#86928a] sm:h-4 sm:w-4" />
         <span className="sr-only">Cari nama santri</span>
-        <input value={query} onChange={(event) => { setQuery(event.target.value); setMessage(""); setError(""); }} placeholder="Cari nama santri…" className="h-full min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-[#98a29b]" />
+        <input type="search" value={query} onChange={(event) => { setQuery(event.target.value); setMessage(""); setError(""); }} placeholder="Cari nama santri…" className="h-full min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-[#98a29b] sm:text-sm" />
       </label>
       <label className="sr-only" htmlFor="filter-kelas">Filter kelas</label>
       <select id="filter-kelas" value={classId} onChange={(event) => setClassId(event.target.value)} className="h-11 w-full rounded-xl border border-[#dfe7e1] bg-white px-3 text-xs font-semibold text-[#536158]">
