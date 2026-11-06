@@ -137,12 +137,12 @@ export async function deleteAssignmentAction(formData: FormData): Promise<Action
   return { success: "Penugasan kelas berhasil dihapus." };
 }
 
-const importRowSchema = z.object({ class_name: z.string().trim().min(1), roll_number: z.coerce.number().int().positive().max(9999), full_name: z.string().trim().min(1).max(160) });
+const importRowSchema = z.object({ class_name: z.string().trim().min(1).max(100), roll_number: z.coerce.number().int().positive().max(9999), full_name: z.string().trim().min(1).max(160) });
 
 export async function importStudentsAction(rows: unknown): Promise<{ inserted: number; failed: { row: number; reason: string }[] }> {
   await requireRole("admin");
-  const parsed = z.array(importRowSchema).max(1000).safeParse(rows);
-  if (!parsed.success) return { inserted: 0, failed: [{ row: 0, reason: "File tidak valid atau melebihi 1.000 baris." }] };
+  const parsed = z.array(importRowSchema).max(100).safeParse(rows);
+  if (!parsed.success) return { inserted: 0, failed: [{ row: 0, reason: "Batch tidak valid atau melebihi 100 baris." }] };
   const supabase = await createClient();
   const [{ data: classRows, error: classError }, { data: currentRows, error: studentError }] = await Promise.all([
     supabase.from("classes").select("id, class_name, academic_year"),

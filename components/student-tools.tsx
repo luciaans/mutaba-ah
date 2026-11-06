@@ -106,6 +106,7 @@ export function StudentImport({ classes, students }: { classes: ClassRow[]; stud
         const canCreateClass = !classId && !hasClassNameCandidate(classMap, row.class_name) && isGradeSectionClassName(row.class_name);
         const classKey = classId ?? (canCreateClass ? `new:${row.class_name.normalize("NFKC").toLocaleLowerCase("id-ID").replace(/[\s./_-]+/g, "")}` : null);
         if (!row.class_name || (!classId && !canCreateClass)) reasons.push("Kelas belum cocok. Masukkan kelas yang sudah dibuat atau format tingkat dan rombel, misalnya 8 A.");
+        if (row.class_name.length > 100) reasons.push("Nama kelas maksimal 100 karakter.");
         if (!row.full_name) reasons.push("Nama kosong.");
         if (!Number.isInteger(row.roll_number) || row.roll_number < 1) reasons.push("Nomor urut tidak valid.");
         if (classKey && row.full_name) {
@@ -130,16 +131,52 @@ export function StudentImport({ classes, students }: { classes: ClassRow[]; stud
   }
 
   function commit() {
-    const valid = rows.filter((row) => row.error.startsWith("Baris ")).map((row) => ({ class_name: row.class_name, roll_number: row.roll_number, full_name: row.full_name }));
-    if (!valid.length) return;
+    const validRows = rows.map((row, index) => ({ row, index })).filter(({ row }) => row.error.startsWith("Baris "));
+    if (!validRows.length) return;
     startTransition(async () => {
-      const result = await importStudentsAction(valid);
-      setMessage(`${result.inserted} santri berhasil diimpor${result.failed.length ? `; ${result.failed.length} baris gagal.` : "."}`);
-      if (result.failed.length) setRows((current) => current.map((row, index) => {
-        const failed = result.failed.find((item) => item.row === index + 2);
-        return failed ? { ...row, error: failed.reason } : row;
+      setMessage("Menyimpan data santri...");
+      const successfulRows = new Set<number>();
+      const failedRows = new Map<number, string>();
+      let inserted = 0;
+      let processed = 0;
+
+      try {
+        for (let offset = 0; offset < validRows.length; offset += 100) {
+          const batch = validRows.slice(offset, offset + 100);
+          setMessage(`Menyimpan data santri (${offset + batch.length}/${validRows.length})...`);
+          const result = await importStudentsAction(batch.map(({ row }) => ({ class_name: row.class_name, roll_number: row.roll_number, full_name: row.full_name })));
+          inserted += result.inserted;
+          processed += batch.length;
+
+          const globalFailure = result.failed.find((item) => item.row === 0);
+          if (globalFailure) {
+            batch.forEach(({ index }) => failedRows.set(index, globalFailure.reason));
+            continue;
+          }
+
+          const batchFailures = new Map(result.failed.map((item) => [item.row - 2, item.reason]));
+          batch.forEach(({ index }, batchIndex) => {
+            const reason = batchFailures.get(batchIndex);
+            if (reason) failedRows.set(index, reason);
+            else if (result.inserted > 0) successfulRows.add(index);
+            else failedRows.set(index, "Data belum tersimpan. Periksa koneksi lalu coba lagi.");
+          });
+        }
+      } catch {
+        const remaining = validRows.length - processed;
+        setMessage(`${inserted} santri berhasil disimpan. Koneksi terputus; ${remaining} baris sisanya belum diproses. Periksa daftar sebelum mencoba lagi.`);
+      }
+
+      setRows((current) => current.flatMap((row, index) => {
+        if (successfulRows.has(index)) return [];
+        const reason = failedRows.get(index);
+        return reason ? [{ ...row, error: reason }] : [row];
       }));
-      if (result.inserted) setRows((current) => current.filter((row) => !row.error.startsWith("Baris ")));
+
+      if (processed === validRows.length) {
+        const failureCount = failedRows.size;
+        setMessage(`${inserted} santri berhasil diimpor${failureCount ? `; ${failureCount} baris gagal.` : "."}`);
+      }
     });
   }
 
